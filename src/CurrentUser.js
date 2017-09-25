@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react'
-import { auth } from './firebase'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { auth } from './firebase';
 
 const CurrentUser = ({ user }) => {
     return (

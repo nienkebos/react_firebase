@@ -3,34 +3,34 @@ import { auth, database } from './firebase';
 import './App.css';
 
 import SignIn from './SignIn';
-import CurrentUser from './CurrentUser'
+import CurrentUser from './CurrentUser';
+import BooksList from './BooksList';
+
+// import map from 'lodash/map';
 
 class App extends Component {
   constructor(props) {
     //super:overwriting constructor, but still want the normal constructor things to happen...
     super(props);
     this.state = {
-      data: null,
-      newData: '',
-      currentUser: null
+
+      currentUser: null,
+      books: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.bookRef = database.ref('/books');
   }
 
   componentDidMount() {
     //database.ref: create connection to db.
     //snapshot: one moment; abstracts over the data.
     //snapshot.val gets the data of that point in the tree
-    database.ref().on('value', (snapshot) => {
-      this.setState({
-        data: snapshot.val()
-      })
-      //console.log('THE DATA CHANGED!', snapshot.val());
-    });
-
     auth.onAuthStateChanged((currentUser) => {
       this.setState({ currentUser })
+      this.bookRef.on('value', (snapshot) => {
+        this.setState({ books: snapshot.val() });
+      })
     })
   }
 
@@ -46,28 +46,24 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser } = this.state; //pulls currentUser of the state object
-    
+    const { currentUser, books } = this.state; //pulls currentUser of the state object
+
     return (
       <div className="App">
         <div className="App-header">
           <h2>Welcome to Reactfire</h2>
         </div>
-        {/* <p className="App-intro">
-          Rebuilding my app in react... let's see what happens!
-        </p>
-        <pre className="App-data">
-          { JSON.stringify(this.state.data, null, 2) }
-        </pre> */}
+
         <div>
           {!currentUser && <SignIn />}
           {currentUser && <CurrentUser user={currentUser} />}
-
         </div>
-        <form className="App-form" onSubmit={this.handleSubmit}>
+        <BooksList books={books} user={currentUser}/>
+
+        {/* <form className="App-form" onSubmit={this.handleSubmit}>
           <input type="text" value={this.state.newData} onChange={this.handleChange}/>
           <input type="submit" />
-        </form>
+        </form> */}
       </div>
     );
   }
