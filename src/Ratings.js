@@ -24,7 +24,7 @@ class Ratings extends Component {
                     <li>{ rating.title }</li>
                     <li>{ rating.rating }</li>
                     <li>{ rating.comment }</li>
-                    <li>{ rating.user }</li> 
+                    {/*TODO: User Component <li>{ rating.user }</li>  */} 
                 </ul>
             </div>
         )

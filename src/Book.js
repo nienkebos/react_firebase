@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import map from 'lodash/map';
 
 import BookDetails from './BookDetails'
 
@@ -7,13 +6,13 @@ class Book extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookDetailsVisible: false
+            detailsVisible: false
         }
-        this.selectBook = this.selectBook.bind(this);
+        this.showDetails = this.showDetails.bind(this);
     }
 
-    selectBook(book) {
-        this.setState({bookDetailsVisible: !this.state.bookDetailsVisible})
+    showDetails(book) {
+        this.setState({ detailsVisible: !this.state.detailsVisible })
     }
 
     render() {
@@ -22,20 +21,16 @@ class Book extends Component {
         return (
             <div className="Book">                
                 { 
-                    this.state.bookDetailsVisible 
-                    ? <BookDetails { ...book }/> 
-                    : <div>
-                        <p>{book.title}</p>
-                        <button onClick={() => this.selectBook() }>Details</button> 
+                    this.state.detailsVisible 
+                    ? <div>
+                        <BookDetails { ...book }/>
+                        <button onClick={ () => this.showDetails() }>Show less</button> 
                       </div>
-
+                    : <div>
+                        <h1>{book.title}</h1>
+                        <button onClick={ () => this.showDetails() }>Show details</button> 
+                      </div>
                 }
-
-                {/* { book.ratings && map(book.ratings, (rating, key) => { return <Ratings key={key} { ...rating }/> }) } */}
-                {/* <ul>
-
-                    { book.ratings && map(book.ratings, (rating, key) => <li key={key}>{ rating }</li> )}
-                </ul> */}
             </div>
         )
     }

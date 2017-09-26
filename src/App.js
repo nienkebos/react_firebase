@@ -5,6 +5,7 @@ import './App.css';
 import SignIn from './SignIn';
 import CurrentUser from './CurrentUser';
 import BooksList from './BooksList';
+import BookForm from './BookForm';
 
 // import map from 'lodash/map';
 
@@ -13,12 +14,11 @@ class App extends Component {
     //super:overwriting constructor, but still want the normal constructor things to happen...
     super(props);
     this.state = {
-
       currentUser: null,
       books: null,
+
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  
     this.bookRef = database.ref('/books');
   }
 
@@ -34,17 +34,6 @@ class App extends Component {
     })
   }
 
-  handleChange(event) {
-    const newData = event.target.value;
-    this.setState({ newData });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    database.ref('/New Data')
-            .push(this.state.newData);
-  }
-
   render() {
     const { currentUser, books } = this.state; //pulls currentUser of the state object
 
@@ -55,15 +44,12 @@ class App extends Component {
         </div>
 
         <div>
-          {!currentUser && <SignIn />}
-          {currentUser && <CurrentUser user={currentUser} />}
+          { !currentUser && <SignIn /> }
+          { currentUser && <CurrentUser user={ currentUser } /> }
         </div>
-        <BooksList books={books} user={currentUser}/>
+        <BooksList books={ books } user={ currentUser } />
+        <BookForm user={ currentUser } />
 
-        {/* <form className="App-form" onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.newData} onChange={this.handleChange}/>
-          <input type="submit" />
-        </form> */}
       </div>
     );
   }

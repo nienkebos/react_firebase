@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
-import { database } from './firebase';
 import map from 'lodash/map'; // lodash map omdat de bookslist een object , dus zou je het eerst naar een array of books moeten omzetten.
 
 import Book from './Book'
 
 
 class BooksList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidMount() {
-        window.setTimeout(()=>{
-            console.log("HI", this.props)
-        }, 2000)
-    }
-
-
     // handleSelect(key) {
     //     const currentUser = this.props.user;
     //     database.ref('/books')
